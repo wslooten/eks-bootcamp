@@ -32,3 +32,9 @@ variable "private_subnet_2_cidr" {
   description = "CIDR for Private Subnet 2"
   type        = string
 }
+
+variable "create_nat_gateway" {
+  description = "Create the NAT Gateway"
+  type        = bool
+  default     = false
+}
