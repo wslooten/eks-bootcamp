@@ -25,11 +25,13 @@ data "aws_ami" "amazon_linux" {
 }
 
 resource "aws_instance" "bootcamp" {
-  ami                    = data.aws_ami.amazon_linux.id
+  ami                    = "ami-083366ec0ea814e87"
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public_1.id
   vpc_security_group_ids = [aws_security_group.ec2.id]
   key_name               = aws_key_pair.bootcamp.key_name
+
+  iam_instance_profile = aws_iam_instance_profile.ec2_ecr.name
 
   associate_public_ip_address = true
 

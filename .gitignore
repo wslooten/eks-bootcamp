@@ -1,13 +1,18 @@
+# Terraform working directories
 .terraform/
+
+# Terraform state
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
 crash.log
+crash.*.log
 
-# Terraform variables
-*.tfvars.backup
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
 
-# SSH Keys
+# SSH private keys
 eks-bootcamp-key
 *.pem
 
