@@ -33,7 +33,7 @@ resource "aws_instance" "bootcamp" {
 
   iam_instance_profile = aws_iam_instance_profile.ec2_ecr.name
 
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   tags = {
     Name    = "${var.project_name}-ec2"

@@ -22,6 +22,11 @@ resource "aws_eks_cluster" "bootcamp" {
   role_arn = aws_iam_role.eks_cluster.arn
   version  = "1.35"
 
+  access_config {
+    authentication_mode                         = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
+  }
+
   vpc_config {
     subnet_ids              = data.aws_subnets.private.ids
     endpoint_private_access = true

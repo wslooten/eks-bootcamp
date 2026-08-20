@@ -7,4 +7,4 @@ public_subnet_2_cidr = "10.0.2.0/24"
 private_subnet_1_cidr = "10.0.11.0/24"
 private_subnet_2_cidr = "10.0.12.0/24"
 
-create_nat_gateway = false
+create_nat_gateway = true

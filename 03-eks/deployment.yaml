@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-bootcamp-web
+  annotations:
+    kubernetes.io/change-cause: "Deploy versie 3"
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eks-bootcamp-web
+  template:
+    metadata:
+      labels:
+        app: eks-bootcamp-web
+    spec:
+      containers:
+        - name: eks-bootcamp-web
+          image: 222104430672.dkr.ecr.eu-west-1.amazonaws.com/eks-bootcamp-web:v3
+          ports:
+            - containerPort: 80
