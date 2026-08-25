@@ -16,5 +16,9 @@ crash.*.log
 eks-bootcamp-key
 *.pem
 
+# Kubernetes secrets
+secret.yaml
+**/secret.yaml
+
 # VS Code
 .vscode/
