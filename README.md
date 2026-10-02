@@ -36,49 +36,49 @@ management.
 
 
 
-&#x20; Lesson   Topic                                                Status
+  Lesson   Topic                                                Status
 
-&#x20; -------- ---------------------------------------------------- -----------
+  -------- ---------------------------------------------------- -----------
 
-&#x20; 1        Bootcamp Introduction & Repository Setup             Completed
+  1        Bootcamp Introduction & Repository Setup             Completed
 
-&#x20; 2        First Terraform Configuration                        Completed
+  2        First Terraform Configuration                        Completed
 
-&#x20; 3        Git Repository Initialized                           Completed
+  3        Git Repository Initialized                           Completed
 
-&#x20; 4        Terraform Basics                                     Completed
+  4        Terraform Basics                                     Completed
 
-&#x20; 5        AWS VPC with Terraform                               Completed
+  5        AWS VPC with Terraform                               Completed
 
-&#x20; 6        Public & Private Subnets                             Completed
+  6        Public & Private Subnets                             Completed
 
-&#x20; 7        Internet Gateway & Public Routing                    Completed
+  7        Internet Gateway & Public Routing                    Completed
 
-&#x20; 8        NAT Gateway & Private Routing                        Completed
+  8        NAT Gateway & Private Routing                        Completed
 
-&#x20; 9        NAT Gateway Feature Flag                             Completed
+  9        NAT Gateway Feature Flag                             Completed
 
-&#x20; 10       Preparation / Transition to EC2                      Completed
+  10       Preparation / Transition to EC2                      Completed
 
-&#x20; 11       EC2, Security Groups & Docker Setup                  Completed
+  11       EC2, Security Groups & Docker Setup                  Completed
 
-&#x20; 12       Docker Image Build                                   Completed
+  12       Docker Image Build                                   Completed
 
-&#x20; 13       Docker Image Versioning                              Completed
+  13       Docker Image Versioning                              Completed
 
-&#x20; 14       Amazon ECR & IAM Integration                         Completed
+  14       Amazon ECR & IAM Integration                         Completed
 
-&#x20; 15       Amazon EKS Control Plane & Access                    Completed
+  15       Amazon EKS Control Plane & Access                    Completed
 
-&#x20; 16       EKS Managed Node Group                               Completed
+  16       EKS Managed Node Group                               Completed
 
-&#x20; 17       Kubernetes Deployment, Service, Scaling & Rollouts   Completed
+  17       Kubernetes Deployment, Service, Scaling & Rollouts   Completed
 
-&#x20; 18       Health Probes & Resource Management                  Completed
+  18       Health Probes & Resource Management                  Completed
 
-&#x20; 19       ConfigMaps & Secrets                                 Completed
+  19       ConfigMaps & Secrets                                 Completed
 
-&#x20; 20       Namespaces, ClusterIP & Kubernetes DNS               Completed
+  20       Namespaces, ClusterIP & Kubernetes DNS               Completed
 
 
 
@@ -102,47 +102,47 @@ management.
 
 Internet
 
-&#x20;  |
+   |
 
 Internet Gateway
 
-&#x20;  |
+   |
 
 AWS VPC 10.0.0.0/16
 
-&#x20;  |
+   |
 
-&#x20;  +-- Public Subnet 1  10.0.1.0/24
+   +-- Public Subnet 1  10.0.1.0/24
 
-&#x20;  +-- Public Subnet 2  10.0.2.0/24
+   +-- Public Subnet 2  10.0.2.0/24
 
-&#x20;  |       |
+   |       |
 
-&#x20;  |       +-- NAT Gateway
+   |       +-- NAT Gateway
 
-&#x20;  |
+   |
 
-&#x20;  +-- Private Subnet 1 10.0.11.0/24
+   +-- Private Subnet 1 10.0.11.0/24
 
-&#x20;  +-- Private Subnet 2 10.0.12.0/24
+   +-- Private Subnet 2 10.0.12.0/24
 
-&#x20;          |
+           |
 
-&#x20;          +-- Amazon EKS
+           +-- Amazon EKS
 
-&#x20;              |
+               |
 
-&#x20;              +-- Managed Node Group
+               +-- Managed Node Group
 
-&#x20;              +-- Kubernetes Deployments
+               +-- Kubernetes Deployments
 
-&#x20;              +-- Kubernetes Services
+               +-- Kubernetes Services
 
-&#x20;              +-- ConfigMaps
+               +-- ConfigMaps
 
-&#x20;              +-- Secrets
+               +-- Secrets
 
-&#x20;              +-- Namespaces
+               +-- Namespaces
 
 ```
 
@@ -281,18 +281,12 @@ Files include:
 ``` text
 
 01-terraform-basics/
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ main.tf
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ outputs.tf
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ providers.tf
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ terraform.tfvars
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ variables.tf
-
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ versions.tf
++-- main.tf
++-- outputs.tf
++-- providers.tf
++-- terraform.tfvars
++-- variables.tf
++-- versions.tf
 
 ```
 
@@ -454,19 +448,19 @@ Added outbound internet connectivity for resources in private subnets.
 
 Private Subnet
 
-&#x20;     |
+      |
 
 Private Route Table
 
-&#x20;     |
+      |
 
 NAT Gateway
 
-&#x20;     |
+      |
 
 Internet Gateway
 
-&#x20;     |
+      |
 
 Internet
 
@@ -1107,74 +1101,40 @@ NetworkPolicies would be required for stronger network-level isolation.
 ``` text
 
 eks-bootcamp/
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 01-terraform-basics/
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ main.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ outputs.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ providers.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ variables.tf
-
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ versions.tf
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 02-vpc/
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ec2.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ecr.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ iam.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ internet-gateway.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ nat-gateway.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ route-tables.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ security-groups.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ subnets.tf
-
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ vpc.tf
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 03-eks/
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ access.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ configmap.yaml
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ console-access.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ deployment.yaml
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ eks.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ iam-eks.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ iam-nodes.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ nodes.tf
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ secret.example.yaml
-
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ service.yaml
-
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ service-dev.yaml
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ .gitignore
-
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ README.md
+|
++-- 01-terraform-basics/
+|   +-- main.tf
+|   +-- outputs.tf
+|   +-- providers.tf
+|   +-- variables.tf
+|   +-- versions.tf
+|
++-- 02-vpc/
+|   +-- ec2.tf
+|   +-- ecr.tf
+|   +-- iam.tf
+|   +-- internet-gateway.tf
+|   +-- nat-gateway.tf
+|   +-- route-tables.tf
+|   +-- security-groups.tf
+|   +-- subnets.tf
+|   +-- vpc.tf
+|
++-- 03-eks/
+|   +-- access.tf
+|   +-- configmap.yaml
+|   +-- console-access.tf
+|   +-- deployment.yaml
+|   +-- eks.tf
+|   +-- iam-eks.tf
+|   +-- iam-nodes.tf
+|   +-- nodes.tf
+|   +-- secret.example.yaml
+|   +-- service.yaml
+|   +-- service-dev.yaml
+|
++-- .gitignore
++-- README.md
 
 ```
 
