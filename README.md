@@ -1290,7 +1290,109 @@ management includes both provisioning and controlled teardown.
 
 ------------------------------------------------------------------------
 
+# Helm Deployment and Release Management
 
+The application deployment was migrated from manually managed Kubernetes
+manifests to a reusable Helm chart.
+
+The Helm chart is located in:
+
+    04-helm/eks-bootcamp-web/
+
+The chart manages:
+
+- Kubernetes Deployment
+- ClusterIP Service
+- ConfigMap
+- Replica count
+- Container image repository and tag
+- Resource requests and limits
+- Readiness probes
+- Liveness probes
+
+The Kubernetes Secret remains managed separately and is excluded from Git.
+
+## Helm Installation
+
+The application was installed into the `dev` namespace:
+
+    helm install eks-bootcamp-web . -n dev
+
+The Helm release manages three application replicas using the container
+image stored in Amazon ECR.
+
+## Helm Upgrade
+
+A new application image (`v4`) was built and pushed to Amazon ECR.
+
+The Helm image tag was changed from:
+
+    v3
+
+to:
+
+    v4
+
+The release was upgraded with:
+
+    helm upgrade eks-bootcamp-web . -n dev
+
+The Kubernetes rolling update replaced the existing v3 Pods with v4 Pods
+without recreating the EKS cluster.
+
+## Helm Release History
+
+Helm maintains release revisions:
+
+    helm history eks-bootcamp-web -n dev
+
+The bootcamp release history demonstrated:
+
+    Revision 1 - Initial installation using v3
+    Revision 2 - Upgrade to v4
+    Revision 3 - Rollback to revision 1 (v3)
+
+This demonstrated that a Helm rollback does not simply reactivate an old
+revision. Helm creates a new revision representing the rollback.
+
+## Helm Rollback
+
+The application was rolled back with:
+
+    helm rollback eks-bootcamp-web 1 -n dev
+
+After the rollback:
+
+- Helm revision 3 became the active release
+- Kubernetes returned to image v3
+- The application was verified through port-forwarding
+- Local Helm values were returned to v3 to prevent configuration drift
+
+## EKS Worker Node Cost Control
+
+The EKS managed node group was updated so the worker node count can be
+controlled through Terraform:
+
+    variable "node_count"
+
+The node group now uses:
+
+    desired_size = var.node_count
+    min_size     = var.node_count
+
+This allows the worker capacity to be reduced when the bootcamp environment
+is not being used:
+
+    terraform apply -var="node_count=0"
+
+and restored when work resumes:
+
+    terraform apply -var="node_count=1"
+
+The EKS control plane remains available while the worker node count is zero.
+
+The NAT Gateway can also be temporarily removed through the existing
+`create_nat_gateway` Terraform variable to reduce unnecessary AWS costs.
 
 # Skills Demonstrated
 
@@ -1350,6 +1452,20 @@ management includes both provisioning and controlled teardown.
 
 -   Git and GitHub
 
+-   Helm
+
+-   Helm charts and templating
+
+-   Helm values
+
+-   Helm upgrades
+
+-   Helm release history
+
+-   Helm rollbacks
+
+-   Configuration drift awareness
+
 
 
 ------------------------------------------------------------------------
@@ -1358,8 +1474,18 @@ management includes both provisioning and controlled teardown.
 
 ## Next Step
 
+The next stage of the bootcamp introduces environment-specific Helm
+configuration.
 
+A single reusable Helm chart will be used with separate values for:
 
-The next stage of the bootcamp will continue with Kubernetes and EKS
+- Development
+- Test
+- Production
 
-operational topics, including observability and troubleshooting.
+This will demonstrate how the same application templates can be deployed
+consistently across multiple environments while keeping environment-specific
+configuration separate.
+
+After this, the bootcamp will continue toward CI/CD automation and
+GitOps with Argo CD.
