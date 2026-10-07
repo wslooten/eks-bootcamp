@@ -1394,8 +1394,186 @@ The EKS control plane remains available while the worker node count is zero.
 The NAT Gateway can also be temporarily removed through the existing
 `create_nat_gateway` Terraform variable to reduce unnecessary AWS costs.
 
-# Skills Demonstrated
+## Environment-Specific Helm Values
 
+The same Helm chart is now used to deploy the application across three
+separate Kubernetes environments: DEV, TEST and PROD.
+
+Instead of maintaining separate Kubernetes manifests for each environment,
+the shared configuration remains in `values.yaml` while environment-specific
+settings are stored in small override files.
+
+### Environment Configuration
+
+| Environment | Namespace | Values File | Replicas | APP_ENV |
+|-------------|-----------|-------------|----------|---------|
+| DEV | dev | values-dev.yaml | 1 | development |
+| TEST | test | values-test.yaml | 2 | test |
+| PROD | prod | values-prod.yaml | 3 | production |
+
+The environment-specific files are located in:
+
+```text
+04-helm/eks-bootcamp-web/
++-- values.yaml
++-- values-dev.yaml
++-- values-test.yaml
++-- values-prod.yaml
+```
+
+### DEV Configuration
+
+```yaml
+replicaCount: 1
+
+config:
+  appEnv: "development"
+  welcomeMessage: "Welkom bij de EKS Bootcamp - DEV"
+```
+
+DEV is managed by the existing Helm release:
+
+```powershell
+helm upgrade eks-bootcamp-web . -n dev -f values-dev.yaml
+```
+
+### TEST Configuration
+
+```yaml
+replicaCount: 2
+
+config:
+  appEnv: "test"
+  welcomeMessage: "Welkom bij de EKS Bootcamp - TEST"
+```
+
+TEST was installed as a separate Helm release:
+
+```powershell
+helm install eks-bootcamp-web-test . -n test -f values-test.yaml
+```
+
+### PROD Configuration
+
+```yaml
+replicaCount: 3
+
+config:
+  appEnv: "production"
+  welcomeMessage: "Welkom bij de EKS Bootcamp - PROD"
+```
+
+PROD was installed as a separate Helm release:
+
+```powershell
+helm install eks-bootcamp-web-prod . -n prod -f values-prod.yaml
+```
+
+### Helm Values Inheritance
+
+Helm combines the shared `values.yaml` with the selected environment-specific
+values file.
+
+For example:
+
+```text
+values.yaml
+    +
+values-prod.yaml
+    |
+    v
+Rendered Kubernetes manifests
+```
+
+Only the settings present in `values-prod.yaml` override the shared defaults.
+
+The environment files therefore change only values such as:
+
+```text
+replicaCount
+config.appEnv
+config.welcomeMessage
+```
+
+Settings including the container image, Service configuration, resource
+requests and limits, readiness probe and liveness probe continue to be
+inherited from `values.yaml`.
+
+All three environments currently use:
+
+```text
+222104430672.dkr.ecr.eu-west-1.amazonaws.com/eks-bootcamp-web:v3
+```
+
+### Namespace-Scoped Secrets
+
+Kubernetes Secrets are namespace scoped.
+
+A Secret created in `dev` is therefore not automatically available in `test`
+or `prod`.
+
+The application Deployment references:
+
+```yaml
+envFrom:
+  - secretRef:
+      name: eks-bootcamp-secret
+```
+
+For the bootcamp, the local Git-ignored Secret was applied separately to the
+TEST and PROD namespaces:
+
+```powershell
+kubectl apply -f C:\eks-bootcamp\03-eks\secret.yaml -n test
+kubectl apply -f C:\eks-bootcamp\03-eks\secret.yaml -n prod
+```
+
+The real `secret.yaml` remains excluded from Git.
+
+In a production platform, separate credentials per environment and an
+external secret-management solution would normally be preferred.
+
+### Deployment Verification
+
+The three application environments can be inspected with:
+
+```powershell
+kubectl get deployments -A
+```
+
+The resulting application topology is:
+
+```text
+DEV   -> 1 replica
+TEST  -> 2 replicas
+PROD  -> 3 replicas
+```
+
+The environment configuration was also verified from inside the running
+containers:
+
+```powershell
+kubectl exec -n dev deployment/eks-bootcamp-web -- printenv APP_ENV
+kubectl exec -n test deployment/eks-bootcamp-web-test -- printenv APP_ENV
+kubectl exec -n prod deployment/eks-bootcamp-web-prod -- printenv APP_ENV
+```
+
+Result:
+
+```text
+DEV   -> development
+TEST  -> test
+PROD  -> production
+```
+
+This demonstrates how one reusable Helm chart can deploy the same application
+consistently across multiple Kubernetes environments while keeping
+environment-specific configuration small and explicit.
+
+------------------------------------------------------------------------
+
+
+# Skills Demonstrated
 
 
 -   AWS networking
@@ -1474,18 +1652,13 @@ The NAT Gateway can also be temporarily removed through the existing
 
 ## Next Step
 
-The next stage of the bootcamp introduces environment-specific Helm
-configuration.
+The next stage of the bootcamp introduces CI/CD automation.
 
-A single reusable Helm chart will be used with separate values for:
+The goal is to automate the application delivery process from source code
+to a running workload on Amazon EKS.
 
-- Development
-- Test
-- Production
+The CI/CD workflow will build the application container image, push the
+image to Amazon ECR and deploy the updated application to Amazon EKS.
 
-This will demonstrate how the same application templates can be deployed
-consistently across multiple environments while keeping environment-specific
-configuration separate.
-
-After this, the bootcamp will continue toward CI/CD automation and
-GitOps with Argo CD.
+After CI/CD automation, the bootcamp will continue toward GitOps with
+Argo CD.
