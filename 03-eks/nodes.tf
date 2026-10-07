@@ -8,8 +8,8 @@ resource "aws_eks_node_group" "bootcamp" {
   capacity_type  = "ON_DEMAND"
 
   scaling_config {
-    desired_size = 1
-    min_size     = 1
+    desired_size = var.node_count
+    min_size     = var.node_count
     max_size     = 2
   }
 
