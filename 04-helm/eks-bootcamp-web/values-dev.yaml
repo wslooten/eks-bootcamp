@@ -1,0 +1,5 @@
+replicaCount: 1
+
+config:
+  appEnv: "development"
+  welcomeMessage: "Welkom bij de EKS Bootcamp - DEV"

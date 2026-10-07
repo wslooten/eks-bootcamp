@@ -1,0 +1,5 @@
+replicaCount: 3
+
+config:
+  appEnv: "production"
+  welcomeMessage: "Welkom bij de EKS Bootcamp - PROD"
