@@ -9,5 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Repository ophalen
+        uses: actions/checkout@v4
+        
       - name: Eerste CI-controle
         run: echo "EKS Bootcamp CI pipeline gestart"
+        
