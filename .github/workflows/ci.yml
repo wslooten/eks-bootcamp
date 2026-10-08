@@ -1,0 +1,13 @@
+name: EKS Bootcamp CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Eerste CI-controle
+        run: echo "EKS Bootcamp CI pipeline gestart"
