@@ -7,20 +7,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
     steps:
       - name: Repository ophalen
         uses: actions/checkout@v4
-        
+
       - name: AWS authenticatie via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::222104430672:role/GitHubActionsECRRole
-          aws-region: eu-west-1        
-        
+          aws-region: eu-west-1
+
+      - name: Inloggen bij Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Eerste CI-controle
         run: echo "EKS Bootcamp CI pipeline gestart"
         
