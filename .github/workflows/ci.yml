@@ -27,6 +27,9 @@ jobs:
 
       - name: Eerste CI-controle
         run: echo "EKS Bootcamp CI pipeline gestart"
-        
+
       - name: Docker image bouwen
-        run: docker build -t eks-bootcamp-web:ci ./app        
+        run: docker build -t 222104430672.dkr.ecr.eu-west-1.amazonaws.com/eks-bootcamp-web:${{ github.sha }} ./app
+
+      - name: Docker image pushen naar Amazon ECR
+        run: docker push 222104430672.dkr.ecr.eu-west-1.amazonaws.com/eks-bootcamp-web:${{ github.sha }}
