@@ -8,9 +8,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Repository ophalen
         uses: actions/checkout@v4
+        
+      - name: AWS authenticatie via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::222104430672:role/GitHubActionsECRRole
+          aws-region: eu-west-1        
         
       - name: Eerste CI-controle
         run: echo "EKS Bootcamp CI pipeline gestart"
