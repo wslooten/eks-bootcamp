@@ -15,3 +15,5 @@ jobs:
       - name: Eerste CI-controle
         run: echo "EKS Bootcamp CI pipeline gestart"
         
+      - name: Docker image bouwen
+        run: docker build -t eks-bootcamp-web:ci ./app        
